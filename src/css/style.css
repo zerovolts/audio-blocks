@@ -1,0 +1,21 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 0.8em;
+  margin: 0em;
+}
+
+#workspace {
+  background-color: #222;
+}
+
+.audio-block {
+  fill: #444;
+  rx: 10;
+  ry: 10;
+}
+
+.audio-port {
+  fill: #6796DB;
+  width: 5;
+  height: 10;
+}
