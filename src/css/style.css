@@ -16,6 +16,5 @@ body {
 
 .audio-port {
   fill: #6796DB;
-  width: 5;
-  height: 10;
+  r: 6;
 }

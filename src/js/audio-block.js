@@ -1,10 +1,15 @@
 var html = require('./json-html');
 
+class AudioPort {
+  constructor() {
+  }
+}
+
 class AudioBlock {
   constructor(name, position) {
     this.displayName = name;
     this.position = position;
-    this.inputs = [];
+    this.inputs = [{name: 'signal', connections: []}, {name: 'cv', connections: []}];
     this.outputs = [];
   }
 
@@ -19,15 +24,18 @@ class AudioBlock {
             width: 128,
             height: 128}],
         [ 'text',
-          { x: this.position.x + 10,
-            y: this.position.y + 25,
+          { x: this.position.x + 64,
+            y: this.position.y + 20,
+            'text-anchor': 'middle',
             fill: '#eee'},
           this.displayName
         ],
-        [ 'rect',
-          { class: 'audio-port',
-            x: this.position.x - 5,
-            y: this.position.y + 30}],
+        this.inputs.map((port, index) =>
+          [ 'circle',
+            { class: 'audio-port',
+              cx: this.position.x + 12,
+              cy: this.position.y + 36 + (index * 24)}]
+        ),
     ]);
   }
 }
