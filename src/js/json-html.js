@@ -21,7 +21,7 @@
 // : array -> recursively call each element left in 'json'
 
 function html(json) {
-  var tag, attributes = {};
+  var tag = '', attributes = {};
   var open_tag = '', close_tag = '';
 
   // if 'json' is not an array, then it's probably a string.
@@ -34,7 +34,7 @@ function html(json) {
 
   if (typeof json[0] === "string") {
     tag = json.shift();
-    if (!Array.isArray(json[0])) {
+    if (json.length > 0 && !Array.isArray(json[0])) {
       attributes = json.shift();
     }
     open_tag =

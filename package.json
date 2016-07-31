@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/zerovolts/audio-blocks",
   "devDependencies": {
+    "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "mocha": "^2.5.3"
   }
 }
