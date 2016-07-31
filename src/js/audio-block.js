@@ -9,14 +9,46 @@ class AudioBlock {
   constructor(name, position) {
     this.displayName = name;
     this.position = position;
-    this.inputs = [{name: 'signal', connections: []}, {name: 'cv', connections: []}];
-    this.outputs = [];
+    this.inputs = [
+      {name: 'signal', connections: []},
+      {name: 'amplitude', connections: []},
+      {name: 'frequency', connections: []},
+    ];
+    this.outputs = [
+      {name: 'signal', connections: []},
+    ];
   }
 
   render() {
     return html(
       [ 'g',
         {},
+        this.inputs.map((port, index) => [
+          [ 'rect',
+            { class: 'audio-port-shadow',
+              x: this.position.x - 8,
+              y: this.position.y + 40 + (index * 24)}],
+          [ 'rect',
+            { class: 'audio-port',
+              x: this.position.x - 8,
+              y: this.position.y + 36 + (index * 24)}]
+        ]),
+        this.outputs.map((port, index) => [
+          [ 'rect',
+            { class: 'audio-port-shadow',
+              x: this.position.x + 120,
+              y: this.position.y + 40 + (index * 24)}],
+          [ 'rect',
+            { class: 'audio-port',
+              x: this.position.x + 120,
+              y: this.position.y + 36 + (index * 24)}]
+        ]),
+        [ 'rect',
+          { class: 'audio-block-shadow',
+            x: this.position.x,
+            y: this.position.y + 8,
+            width: 128,
+            height: 128}],
         [ 'rect',
           { class: 'audio-block',
             x: this.position.x,
@@ -30,12 +62,6 @@ class AudioBlock {
             fill: '#eee'},
           this.displayName
         ],
-        this.inputs.map((port, index) =>
-          [ 'circle',
-            { class: 'audio-port',
-              cx: this.position.x + 12,
-              cy: this.position.y + 36 + (index * 24)}]
-        ),
     ]);
   }
 }

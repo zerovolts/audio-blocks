@@ -1,6 +1,6 @@
 body {
   font-family: 'Ubuntu', sans-serif;
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin: 0em;
 }
 
@@ -14,7 +14,24 @@ body {
   ry: 10;
 }
 
+.audio-block-shadow {
+  fill: #333;
+  rx: 10;
+  ry: 10;
+}
+
 .audio-port {
-  fill: #6796DB;
-  r: 6;
+  fill: #6796db;
+  width: 16;
+  height: 16;
+  rx: 4;
+  ry: 4;
+}
+
+.audio-port-shadow {
+  fill: #3565ab;
+  width: 16;
+  height: 16;
+  rx: 4;
+  ry: 4;
 }
