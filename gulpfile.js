@@ -18,6 +18,12 @@ gulp.task('js', () => {
     .pipe(gulp.dest('app'));
 });
 
+gulp.task('repl', () => {
+  return gulp.src('src/js/repl.js')
+    .pipe(browserify())
+    .pipe(gulp.dest('app'));
+});
+
 gulp.task('serve', () => {
   return gulp.src('app')
     .pipe(webserver({

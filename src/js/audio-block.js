@@ -1,4 +1,5 @@
 var html = require('./json-html');
+var mod = require('./audio-modules/audio-module.js');
 
 class AudioPort {
   constructor() {
@@ -6,24 +7,17 @@ class AudioPort {
 }
 
 class AudioBlock {
-  constructor(name, position) {
+  constructor(name, position, context, modtype) {
     this.displayName = name;
     this.position = position;
-    this.inputs = [
-      {name: 'signal', connections: []},
-      {name: 'amplitude', connections: []},
-      {name: 'frequency', connections: []},
-    ];
-    this.outputs = [
-      {name: 'signal', connections: []},
-    ];
+    this.module = new modtype(context);
   }
 
   render() {
     return html(
       [ 'g',
         {},
-        this.inputs.map((port, index) => [
+        Object.keys(this.module.inputs).map((port, index) => [
           [ 'rect',
             { class: 'audio-port-shadow',
               x: this.position.x - 8,
@@ -33,7 +27,7 @@ class AudioBlock {
               x: this.position.x - 8,
               y: this.position.y + 36 + (index * 24)}]
         ]),
-        this.outputs.map((port, index) => [
+        Object.keys(this.module.outputs).map((port, index) => [
           [ 'rect',
             { class: 'audio-port-shadow',
               x: this.position.x + 120,
@@ -55,6 +49,14 @@ class AudioBlock {
             y: this.position.y,
             width: 128,
             height: 128}],
+        [ 'rect',
+          { x: this.position.x + 16,
+            y: this.position.y + 4,
+            width: 96,
+            height: 24,
+            fill: '#333',
+            rx: 6,
+            ry: 6,}],
         [ 'text',
           { x: this.position.x + 64,
             y: this.position.y + 20,
