@@ -15,13 +15,23 @@ exports.AudioWorkspace = {
   view: function(ctrl) {
     return m('svg', [
       m('rect', {
-        x: 100,
-        y: 100,
-        width: 100,
-        height: 20,
-        fill: "#eee",
-        onclick: () => ctrl.newBlock(templates.oscillator)
-      }, "add block"),
+        class: "button",
+        x: 50,
+        y: 200,
+        onclick: () => ctrl.newBlock(templates.oscillator),
+      }),
+      m('rect', {
+        class: "button",
+        x: 200,
+        y: 200,
+        onclick: () => ctrl.newBlock(templates.amplifier),
+      }),
+      m('rect', {
+        class: "button",
+        x: 350,
+        y: 200,
+        onclick: () => ctrl.newBlock(templates.sink),
+      }),
       ctrl.blocks.map(block => m.component(blk.AudioBlock, block)),
       //ctrl.blocks.map(block => m("p", block.displayName)),
     ]);

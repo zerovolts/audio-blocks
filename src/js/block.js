@@ -1,11 +1,9 @@
 exports.AudioBlock = {
   controller: function(block) {
-    console.log(block);
     return block;
   },
 
   view: function(ctrl) {
-    console.log(ctrl);
     return m('svg', [
       Object.keys(ctrl.inputs).map((port, index) => [
         m('rect',
