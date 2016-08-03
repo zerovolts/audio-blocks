@@ -1,2 +1,4 @@
 app/
 node_modules/
+lib/
+src/html/mithril.html

@@ -18,6 +18,11 @@ gulp.task('js', () => {
     .pipe(gulp.dest('app'));
 });
 
+gulp.task('lib', () => {
+  return gulp.src('lib/mithril/mithril.min.js')
+    .pipe(gulp.dest('app'));
+});
+
 gulp.task('repl', () => {
   return gulp.src('src/js/repl.js')
     .pipe(browserify())
@@ -38,4 +43,4 @@ gulp.task('watch', () => {
 });
 
 gulp.task('build', ['html', 'css', 'js']);
-gulp.task('default', ['build', 'serve', 'watch']);
+gulp.task('default', ['build', 'serve', 'watch', 'lib']);
