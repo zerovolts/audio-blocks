@@ -1,18 +1,19 @@
-
-class Workspace {
-
-}
-
 class AudioModule {
-  constructor(context) {
-    this.node = {};
-    this.inputs = [];
-    this.outputs = [];
+  constructor(template, ctx) {
+    this.data = new template(ctx);
+    this.displayName = this.data.displayName || "";
+    this.position = {x: 0, y: 0};
+    this.node = this.data.node || undefined;
+    this.inputs = this.data.inputs || [];
+    this.outputs = this.data.outputs || [];
   }
 }
 
+/*
 class OscillatorModule {
   constructor(context) {
+    this.displayName = "Oscillator";
+    this.position = {x: 0, y: 0};
     this.node = context.createOscillator();
     this.inputs = {
       frequency: {
@@ -37,6 +38,8 @@ class OscillatorModule {
 
 class AmplifierModule {
   constructor(context) {
+    this.displayName = "Amplifier";
+    this.position = {x: 0, y: 0};
     this.node = context.createGain();
     this.inputs = {
       gain: {
@@ -58,6 +61,8 @@ class AmplifierModule {
 
 class SinkModule {
   constructor(context) {
+    this.displayName = "Sink";
+    this.position = {x: 0, y: 0};
     this.node = context.destination;
     this.inputs = {
       audio: {
@@ -68,12 +73,11 @@ class SinkModule {
     this.outputs = {};
   }
 }
+*/
 
 function connect(tx, rx) {
   tx.port.connect(rx.port);
 }
 
-module.exports.OscillatorModule = OscillatorModule;
-module.exports.AmplifierModule = AmplifierModule;
-module.exports.SinkModule = SinkModule;
-module.exports.connect = connect;
+exports.AudioModule = AudioModule;
+exports.connect = connect;

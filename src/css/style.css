@@ -2,6 +2,7 @@ body {
   font-family: 'Ubuntu', sans-serif;
   font-size: 0.9em;
   margin: 0em;
+  user-select: none;
 }
 
 #workspace {
