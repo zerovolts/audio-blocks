@@ -1,8 +1,8 @@
 class AudioModule {
-  constructor(template, ctx) {
+  constructor(ctx, template, position) {
     this.data = new template(ctx);
     this.displayName = this.data.displayName || "";
-    this.position = {x: 0, y: 0};
+    this.position = position || {x: 0, y: 0};
     this.node = this.data.node || undefined;
     this.inputs = this.data.inputs || [];
     this.outputs = this.data.outputs || [];

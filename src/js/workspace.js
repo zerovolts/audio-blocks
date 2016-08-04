@@ -1,6 +1,6 @@
-var blk = require('./block');
+var AudioModule = require('./module').AudioModule;
+var AudioBlock = require('./block').AudioBlock;
 var templates = require('./module-templates');
-var mod = require('./module');
 
 exports.AudioWorkspace = {
   controller: function() {
@@ -8,7 +8,7 @@ exports.AudioWorkspace = {
     this.blocks = [];
 
     this.newBlock = function(template) {
-      this.blocks.push(new mod.AudioModule(template, this.ctx));
+      this.blocks.push(new AudioModule(this.ctx, template, {x: Math.floor(Math.random() * 1000), y: Math.floor(Math.random() * 1000)}));
     };
   },
 
@@ -32,7 +32,7 @@ exports.AudioWorkspace = {
         y: 200,
         onclick: () => ctrl.newBlock(templates.sink),
       }),
-      ctrl.blocks.map(block => m.component(blk.AudioBlock, block)),
+      ctrl.blocks.map(block => m.component(AudioBlock, block)),
       //ctrl.blocks.map(block => m("p", block.displayName)),
     ]);
   },

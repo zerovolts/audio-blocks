@@ -1,4 +1,4 @@
-var ws = require('./workspace');
+var AudioWorkspace = require('./workspace').AudioWorkspace;
 var block = require('./block');
 var mod = require('./module');
 
@@ -10,7 +10,7 @@ document.getElementById('workspace').setAttribute("height", window.innerHeight);
 //window.osc = osc;
 //m.mount(document.getElementById('workspace'), {view: block.AudioBlock.view.bind(osc)});
 
-m.mount(document.getElementById('workspace'), ws.AudioWorkspace);
+m.mount(document.getElementById('workspace'), AudioWorkspace);
 
 //document.getElementById('workspace').innerHTML += wire({x: 148, y: 64}, {x: 200, y: 64});
 //document.getElementById('workspace').innerHTML += wire({x: 148, y: 64}, {x: 200, y: 88});
