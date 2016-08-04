@@ -38,6 +38,7 @@ exports.AudioBlock = {
         { x: block.position.x + 64,
           y: block.position.y + 20,
           'text-anchor': 'middle',
+          'user-select': 'none',
           fill: '#eee'},
         block.displayName
       ),

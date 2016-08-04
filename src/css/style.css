@@ -2,7 +2,13 @@ body {
   font-family: 'Ubuntu', sans-serif;
   font-size: 0.9em;
   margin: 0em;
+}
+
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
   user-select: none;
+  cursor: default;
 }
 
 #workspace {
@@ -30,7 +36,6 @@ body {
 }
 
 .audio-port {
-  fill: #6796db;
   width: 16;
   height: 16;
   rx: 4;
@@ -38,7 +43,6 @@ body {
 }
 
 .audio-port-shadow {
-  fill: #3565ab;
   width: 16;
   height: 16;
   rx: 4;
