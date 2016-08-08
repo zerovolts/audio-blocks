@@ -47,15 +47,22 @@ exports.AudioWorkspace = {
   view: function(ctrl) {
     return m('svg', {
       class: 'grid',
-      onclick: event => {console.log(ctrl.currentTemplate().name); ctrl.newBlock(ctrl.currentTemplate(), {x: ctrl.mouseX() - 64, y: ctrl.mouseY() - 64})},
+      onclick: event => {
+        ctrl.newBlock(ctrl.currentTemplate(), {
+          x: ctrl.mouseX() - 64,
+          y: ctrl.mouseY() - 64
+        });
+      },
       onmousedown: () => ctrl.mouseDown(true),
       onmouseup: () => ctrl.mouseDown(false),
       onmousemove: event => {ctrl.mouseX(event.clientX); ctrl.mouseY(event.clientY)},
 
       //onmousemove: event => {if (ctrl.mouseDown()) {ctrl.mouseX(event.clientX); ctrl.mouseY(event.clientY)}},
     }, [
+      ctrl.blocks.map(block => m.component(AudioBlock, block, ctrl.mouseX, ctrl.mouseY, ctrl.addWirePort, ctrl.mouseDown)),
+      ctrl.wires.map(wire => m.component(Wire, wire)),
+
       [templates.oscillator, templates.amplifier, templates.sink].map((template, index) => {
-        //console.log(template.name + " : " + ctrl.currentTemplate().name + " = " + (ctrl.currentTemplate().name === template.name));
         return m('g', {
           onclick: () => {ctrl.currentTemplate(template); event.stopPropagation()},
         }, [
@@ -73,29 +80,7 @@ exports.AudioWorkspace = {
           }, template.name),
         ])
       }),
-      /*
-      m('rect', {
-        class: "button",
-        //'stroke-opacity': () => ctrl.currentTemplate().name === 'oscillator' ? 0.8 : 0,
-        x: 16,
-        y: 64,
-        onclick: () => {ctrl.currentTemplate(templates.oscillator); event.stopPropagation()},
-      }),
-      m('rect', {
-        class: "button",
-        x: 16,
-        y: 128,
-        onclick: () => {ctrl.currentTemplate(templates.amplifier); event.stopPropagation()},
-      }),
-      m('rect', {
-        class: "button",
-        x: 16,
-        y: 196,
-        onclick: () => {ctrl.currentTemplate(templates.sink); event.stopPropagation()},
-      }),
-      */
-      ctrl.blocks.map(block => m.component(AudioBlock, block, ctrl.mouseX, ctrl.mouseY, ctrl.addWirePort)),
-      ctrl.wires.map(wire => m.component(Wire, wire)),
+
     ]);
   },
 };

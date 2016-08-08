@@ -1,7 +1,7 @@
 var AudioPort = require('./port').AudioPort;
 
 exports.AudioBlock = {
-  controller: function(block, mouseX, mouseY, addWirePort) {
+  controller: function(block, mouseX, mouseY, addWirePort, mouseDown) {
     return {
       block: block,
       focus: m.prop(false),
@@ -11,12 +11,16 @@ exports.AudioBlock = {
       clickY: m.prop(0),
       mouseX: mouseX,
       mouseY: mouseY,
+      mouseDown: mouseDown,
       addWirePort: addWirePort,
     };
   },
 
   view: function(ctrl) {
     var block = ctrl.block;
+    if(ctrl.mouseDown() === false) {
+      ctrl.focus(false);
+    }
     if (ctrl.focus()) {
       const tempX = ctrl.mouseX() - ctrl.clickX();
       const tempY = ctrl.mouseY() - ctrl.clickY();
@@ -42,9 +46,11 @@ exports.AudioBlock = {
           onmousedown: () => {ctrl.clicked(true); ctrl.raise(0)},
           onmouseup: () => {ctrl.clicked(false); ctrl.raise(8)},
           onclick: () => console.log(ctrl.displayName)}),
+
+      // draggable name rectangle
       m('g', {
         onclick: event => event.stopPropagation(),
-        onmousedown: event => {ctrl.focus(true); ctrl.clickX(event.clientX - block.position.x); ctrl.clickY(event.clientY - block.position.y);},
+        onmousedown: event => {ctrl.focus(true); ctrl.mouseDown(true); ctrl.clickX(event.clientX - block.position.x); ctrl.clickY(event.clientY - block.position.y);},
         onmouseup: event => {ctrl.focus(false); ctrl.clickX(0); ctrl.clickX(0);},
         //onmousemove: event => {if (ctrl.focus()) {block.position.x = event.clientX - ctrl.clickX(); block.position.y = event.clientY - ctrl.clickY()}},
       }, [
