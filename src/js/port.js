@@ -4,7 +4,7 @@ exports.AudioPort = {
     this.block = data.block;
     this.index = data.index;
     this.raise = data.raise;
-    this.addWirePort = data.addWirePort;
+    this.pushPort = data.pushPort;
 
     this.focus = m.prop(false);
     this.xoffset = data.port.input ? -10 : 122;
@@ -27,7 +27,7 @@ exports.AudioPort = {
     return m('svg', {
       onmouseover: () => ctrl.focus(true),
       onmouseout: () => ctrl.focus(false),
-      onclick: () => ctrl.addWirePort(position),
+      onclick: () => ctrl.pushPort(position),
     },
     [
       m('rect',

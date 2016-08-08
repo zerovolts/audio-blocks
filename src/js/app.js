@@ -1,16 +1,18 @@
-var AudioWorkspace = require('./workspace').AudioWorkspace;
+var CAudioWorkspace = require('./workspace').CAudioWorkspace;
 var block = require('./block');
 var mod = require('./module');
 
-document.getElementById('app').setAttribute("width", window.innerWidth);
-document.getElementById('app').setAttribute("height", window.innerHeight);
+document.getElementsByTagName('body')[0].addEventListener('resize', function(event) {
+  document.getElementById('app').setAttribute("width", window.innerWidth);
+  document.getElementById('app').setAttribute("height", window.innerHeight);
+});
 
 //var ctx = new AudioContext();
 //var osc = new mod.AudioModule(mod.osc, ctx);
 //window.osc = osc;
 //m.mount(document.getElementById('workspace'), {view: block.AudioBlock.view.bind(osc)});
 
-m.mount(document.getElementById('app'), AudioWorkspace);
+m.mount(document.getElementById('app'), CAudioWorkspace);
 
 //document.getElementById('workspace').innerHTML += wire({x: 148, y: 64}, {x: 200, y: 64});
 //document.getElementById('workspace').innerHTML += wire({x: 148, y: 64}, {x: 200, y: 88});

@@ -3,72 +3,82 @@ var AudioBlock = require('./block').AudioBlock;
 var Wire = require('./wire').Wire;
 var templates = require('./module-templates');
 
-exports.AudioWorkspace = {
-  controller: function() {
-    this.ctx = new AudioContext();
-    this.width = m.prop(window.innerWidth);
-    this.height = m.prop(window.innerHeight);
+class AudioWorkspace {
+  constructor() {
+    this.context = new AudioContext();
     this.blocks = [];
     this.wires = [];
-    this.mouseDown = m.prop(false);
-    this.mouseX = m.prop(0);
-    this.mouseY = m.prop(0);
-    this.currentTemplate = m.prop(templates.oscillator);
+  }
 
-    this.sourcePort = m.prop(undefined);
-
-    this.newBlock = function(template, position) {
-      const discretePosition = {
-        x: position.x - (position.x % 16),
-        y: position.y - (position.y % 16),
-      }
-      this.blocks.push(new AudioModule(this.ctx, template, discretePosition));
+  _gridLock(position) {
+    return {
+      x: position.x - (position.x % 16),
+      y: position.y - (position.y % 16),
     };
+  }
 
-    this.changeTemplate = function() {
+  createBlock(template, position) {
+    this.blocks.push(new AudioModule(this.context, template, this._gridLock(position)));
+  }
 
-    }
+  createWire(source, sink) {
+    this.wires.push({source: source, sink: sink});
+  }
+}
 
-    this.addWirePort = function(port) {
-      console.log(port());
-      if(this.sourcePort()) {
-        this.newWire(this.sourcePort, port());
-        this.sourcePort(undefined);
-      } else {
-        this.sourcePort(port());
+var CAudioWorkspace = {
+  vm: {
+    init: function() {
+      const vm = CAudioWorkspace.vm;
+      vm.workspace = new AudioWorkspace();
+
+      vm.templates = [templates.oscillator, templates.amplifier, templates.sink];
+      vm.activeTemplate = m.prop(templates.oscillator);
+      vm.tempPort = m.prop(undefined);
+
+      vm.mouseDown = m.prop(false);
+      vm.mousePosition = m.prop({x: 0, y: 0});
+
+      vm.pushPort = function(port) {
+        if(vm.tempPort()) {
+          vm.workspace.createWire(vm.tempPort(), port);
+          vm.tempPort(undefined);
+        } else {
+          vm.tempPort(port);
+        }
       }
-    }.bind(this);
+    }
+  },
 
-    this.newWire = function(txPort, rxPort) {
-      this.wires.push({source: txPort, sink: rxPort});
+  controller: function() {
+    const vm = CAudioWorkspace.vm;
+    CAudioWorkspace.vm.init();
+
+    this.createBlock = function(x, y) {
+      vm.workspace.createBlock(vm.activeTemplate(), {x: x, y: y});
     };
   },
 
   view: function(ctrl) {
+    const vm = CAudioWorkspace.vm;
+
     return m('svg', {
       class: 'grid',
-      onclick: event => {
-        ctrl.newBlock(ctrl.currentTemplate(), {
-          x: ctrl.mouseX() - 64,
-          y: ctrl.mouseY() - 64
-        });
-      },
-      onmousedown: () => ctrl.mouseDown(true),
-      onmouseup: () => ctrl.mouseDown(false),
-      onmousemove: event => {ctrl.mouseX(event.clientX); ctrl.mouseY(event.clientY)},
-
-      //onmousemove: event => {if (ctrl.mouseDown()) {ctrl.mouseX(event.clientX); ctrl.mouseY(event.clientY)}},
+      onclick: event => ctrl.createBlock(vm.mousePosition().x - 64, vm.mousePosition().y - 64),
+      onmousedown: () => vm.mouseDown(true),
+      onmouseup: () => vm.mouseDown(false),
+      onmousemove: event => vm.mousePosition({x: event.clientX, y: event.clientY}),
     }, [
-      ctrl.blocks.map(block => m.component(AudioBlock, block, ctrl.mouseX, ctrl.mouseY, ctrl.addWirePort, ctrl.mouseDown)),
-      ctrl.wires.map(wire => m.component(Wire, wire)),
+      vm.workspace.blocks.map(block => m.component(AudioBlock, block, vm.mousePosition, vm.pushPort, vm.mouseDown)),
+      vm.workspace.wires.map(wire => m.component(Wire, wire)),
 
-      [templates.oscillator, templates.amplifier, templates.sink].map((template, index) => {
+      vm.templates.map((template, index) => {
         return m('g', {
-          onclick: () => {ctrl.currentTemplate(template); event.stopPropagation()},
+          onclick: () => {vm.activeTemplate(template); event.stopPropagation()},
         }, [
           m('rect', {
             class: "button",
-            'stroke-opacity': (ctrl.currentTemplate().name === template.name) ? 0.8 : 0,
+            'stroke-opacity': (vm.activeTemplate().name === template.name) ? 0.8 : 0,
             x: 16,
             y: (index * 48) + 16,
           }),
@@ -84,3 +94,5 @@ exports.AudioWorkspace = {
     ]);
   },
 };
+
+exports.CAudioWorkspace = CAudioWorkspace;

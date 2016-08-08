@@ -1,7 +1,7 @@
 var AudioPort = require('./port').AudioPort;
 
 exports.AudioBlock = {
-  controller: function(block, mouseX, mouseY, addWirePort, mouseDown) {
+  controller: function(block, mousePosition, pushPort, mouseDown) {
     return {
       block: block,
       focus: m.prop(false),
@@ -9,10 +9,9 @@ exports.AudioBlock = {
       raise: m.prop(8),
       clickX: m.prop(0),
       clickY: m.prop(0),
-      mouseX: mouseX,
-      mouseY: mouseY,
+      mousePosition: mousePosition,
       mouseDown: mouseDown,
-      addWirePort: addWirePort,
+      pushPort: pushPort,
     };
   },
 
@@ -22,8 +21,8 @@ exports.AudioBlock = {
       ctrl.focus(false);
     }
     if (ctrl.focus()) {
-      const tempX = ctrl.mouseX() - ctrl.clickX();
-      const tempY = ctrl.mouseY() - ctrl.clickY();
+      const tempX = ctrl.mousePosition().x - ctrl.clickX();
+      const tempY = ctrl.mousePosition().y - ctrl.clickY();
       block.position = {
         x: tempX - (tempX % 16),
         y: tempY - (tempY % 16),
@@ -33,7 +32,7 @@ exports.AudioBlock = {
         onclick: event => event.stopPropagation(),
       },[
       Object.keys(block.inputs).map((name, index) => m.component(AudioPort, {port: {name: name, input: true}, block: block, raise: ctrl.raise, addWirePort: ctrl.addWirePort, index: index})),
-      Object.keys(block.outputs).map((name, index) => m.component(AudioPort, {port: {name: name, input: false}, block: block, raise: ctrl.raise, addWirePort: ctrl.addWirePort, index: index})),
+      Object.keys(block.outputs).map((name, index) => m.component(AudioPort, {port: {name: name, input: false}, block: block, raise: ctrl.raise, pushPort: ctrl.pushPort, index: index})),
 
       m('rect',
         { class: 'audio-block-shadow',
