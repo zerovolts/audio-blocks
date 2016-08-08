@@ -2,15 +2,15 @@ var AudioWorkspace = require('./workspace').AudioWorkspace;
 var block = require('./block');
 var mod = require('./module');
 
-document.getElementById('workspace').setAttribute("width", window.innerWidth);
-document.getElementById('workspace').setAttribute("height", window.innerHeight);
+document.getElementById('app').setAttribute("width", window.innerWidth);
+document.getElementById('app').setAttribute("height", window.innerHeight);
 
 //var ctx = new AudioContext();
 //var osc = new mod.AudioModule(mod.osc, ctx);
 //window.osc = osc;
 //m.mount(document.getElementById('workspace'), {view: block.AudioBlock.view.bind(osc)});
 
-m.mount(document.getElementById('workspace'), AudioWorkspace);
+m.mount(document.getElementById('app'), AudioWorkspace);
 
 //document.getElementById('workspace').innerHTML += wire({x: 148, y: 64}, {x: 200, y: 64});
 //document.getElementById('workspace').innerHTML += wire({x: 148, y: 64}, {x: 200, y: 88});

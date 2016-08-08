@@ -1,5 +1,5 @@
-exports.oscillator = function(ctx) {
-  this.displayName = "Osc";
+exports.oscillator = function oscillator(ctx) {
+  this.displayName = "Oscillator";
   this.node = ctx.createOscillator();
   this.inputs = {
     frequency: {
@@ -21,7 +21,7 @@ exports.oscillator = function(ctx) {
   };
 }
 
-exports.amplifier = function(ctx) {
+exports.amplifier = function amplifier(ctx) {
   this.displayName = "Amplifier";
   this.position = {x: 0, y: 0};
   this.node = ctx.createGain();
@@ -42,7 +42,7 @@ exports.amplifier = function(ctx) {
   };
 }
 
-exports.sink = function(ctx) {
+exports.sink = function sink(ctx) {
   this.displayName = "Sink";
   this.position = {x: 0, y: 0};
   this.node = ctx.destination;
