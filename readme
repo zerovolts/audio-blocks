@@ -1,1 +1,21 @@
 電子音楽
+
+Definitions
+--
+
+Core Blocks - Audio API Node wrappers
+Composite Blocks (standard library)
+
+Workspace (Grid): stores {Block, position}
+Block:
+Port:
+Wire:
+
+
+Thoughts
+--------
+
+Blocks should not contain their own position. Only the position of their component blocks.
+Blocks should not contain their own connection information. Only the connections of their components.
+
+Workspace should be a specialized block.

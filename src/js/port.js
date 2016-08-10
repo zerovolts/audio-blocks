@@ -1,4 +1,4 @@
-exports.AudioPort = {
+exports.cAudioPort = {
   controller: function(data) {
     this.port = data.port;
     this.block = data.block;
